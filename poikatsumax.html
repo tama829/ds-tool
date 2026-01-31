@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  <style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 10px;
+  }
+  .col {
+    padding: 10px;
+  }
+  .center {
+    text-align: center;
+    font-weight: bold;
+  }
+  .price {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .label {
+    padding: 6px 0;
+  }
+  input {
+    width: 100%;
+    margin: 6px 0;
+  }
+  .result {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  .strong {
+    font-size: 18px;
+  }
+
+  @media (max-width: 700px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .center {
+      display: none;
+    }
+  }
+</style>
+</style>
+</head>
+
+<body>
+<h1 style="text-align:center;">ポイ活MAX料金比較ツール</h1>
+
+<div class="grid">
+
+  <!-- 左：ポイ活MAX -->
+  <div class="col">
+    <h2>ポイ活MAX</h2>
+    <div class="price">11,748円（税込）</div>
+
+    <input type="number" placeholder="割引金額入力">
+    <input type="number" placeholder="割引金額入力">
+    <input type="number" placeholder="割引金額入力">
+    <input type="number" placeholder="割引金額入力">
+    <input type="number" placeholder="割引金額入力">
+
+    <div class="result">割引適用後の料金</div>
+
+    <hr>
+
+    <input type="number" placeholder="通常還元ポイント">
+    <input type="number" placeholder="ポイ活MAX 10%還元">
+    <input type="number" placeholder="ドコモご利用料金還元">
+    <input type="number" placeholder="ドコモでんき還元">
+    <input type="number" placeholder="ファミリー特典">
+
+    <div class="result strong">
+      実質料金（自動計算）
+    </div>
+  </div>
+
+  <!-- 中央：項目名 -->
+  <div class="col center">
+    <h2>&nbsp;</h2>
+    <div class="price">&nbsp;</div>
+
+    <div class="label">〜各種割引〜</div>
+    <div class="label">みんなドコモ割</div>
+    <div class="label">長期利用割</div>
+    <div class="label">dカードお支払い割</div>
+    <div class="label">ドコモ光 / home5G セット割</div>
+    <div class="label">ドコモでんきセット割</div>
+    <div class="label">割引適用後の料金</div>
+
+    <div class="label">〜ポイント還元〜</div>
+    <div class="label">通常還元 1%</div>
+    <div class="label">ポイ活MAX 10%還元</div>
+    <div class="label">ドコモご利用料金還元</div>
+    <div class="label">ドコモでんき還元</div>
+    <div class="label">ファミリー特典</div>
+    <div class="label">実質料金</div>
+  </div>
+
+  <!-- 右：比較プラン -->
+  <div class="col">
+    <input type="text" placeholder="プラン名入力">
+    <input type="number" placeholder="プラン金額入力">
+
+    <input type="number" placeholder="割引金額入力">
+    <input type="number" placeholder="割引金額入力">
+    <input type="number" placeholder="割引金額入力">
+    <input type="number" placeholder="割引金額入力">
+    <input type="number" placeholder="割引金額入力">
+
+    <div class="result">割引適用後の料金</div>
+
+    <hr>
+
+    <input type="number" placeholder="通常還元ポイント">
+    <div class="label">—</div>
+    <input type="number" placeholder="ご利用料金還元">
+    <input type="number" placeholder="でんき還元">
+    <input type="number" placeholder="ファミリー特典">
+
+    <div class="result strong">
+      実質料金（自動計算）
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
