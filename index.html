@@ -262,8 +262,13 @@ h1 {
     <option value="4378">ギガライト2年定期（〜3GB）</option>
     <option value="5478">ギガライト2年定期（〜5GB）</option>
     <option value="6578">ギガライト2年定期（〜7GB）</option>
-
+<option value="other">その他</option>
   </select>
+<input
+  type="text"
+  id="r-plan-other"
+  placeholder="プラン名"
+>
 </div>
 </div>
 
@@ -546,40 +551,6 @@ h1 {
   </div>
 
   <div class="cell price-cell">
-
-  <!-- ★ 追加：irumo / mini 用 還元率表示 -->
-  <span
-    id="keitai-rate-r"
-    style="
-      display:none;
-      margin-right:6px;
-      font-size:13px;
-      color:#1e6bd6;
-      font-weight:600;
-      white-space:nowrap;
-    "
-  >
-    <input
-      type="number"
-      id="keitai-rate-input-r"
-      placeholder="00"
-      min="0"
-      max="99"
-      inputmode="numeric"
-      style="
-        width:24px;
-        font-size:13px;
-        text-align:center;
-        border:none;
-        border-bottom:1px solid #1e6bd6;
-        color:#1e6bd6;
-        background:transparent;
-        padding:0;
-        font-family:'Noto Sans JP', sans-serif;
-      "
-    >%還元
-  </span>
-
     <input type="number" class="r-point number-input" placeholder="ポイント入力">
     <span class="yen">pt</span>
   </div>
@@ -741,12 +712,10 @@ function setPlanPrice(){
   calc();
 }
 
-  // ===== irumo / mini 判定 =====
-  const isIrumoMini =
-    text.includes("irumo") || text.includes("mini");
-
-  document.getElementById("keitai-rate-r").style.display =
-    isIrumoMini ? "inline-flex" : "none";
+  // ===== その他プラン =====
+  const isOtherPlan = plan.value === "other";
+  document.getElementById("r-plan-other").style.display =
+    isOtherPlan ? "block" : "none";
 
 // 「その他」入力の表示切替
 function handleOther(select){
