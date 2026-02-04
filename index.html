@@ -887,17 +887,6 @@ function setRate(id, value) {
 // === メイン処理 === //
 
 function applyDcard(side) {
-
-const phoneRateEl = document.getElementById("r-phone-rate");
-if (!phoneRateEl) return;
-
-const phoneBalloon = phoneRateEl.closest(".balloon");
-if (!phoneBalloon) return;
-
-const phonePointInput =
-  phoneBalloon.parentElement.querySelector(".r-point");
-const phoneDash = document.getElementById("r-phone-dash");
-
   const card = document.getElementById(`${side}-card`).value;
   if (!card) return;
 
@@ -920,26 +909,32 @@ if (plan !== "ahamo" && plan !== "irumo05") {
     const phonePointInput = phoneBalloon.parentElement.querySelector(".r-point");
     const phoneDash = document.getElementById("r-phone-dash");
 
-    if (plan === "ahamo") {
-  phoneBalloon.style.display = "none";
-  phonePointInput.style.display = "none";
-  phoneDash.style.display = "flex";
+    // --- ahamo ---
+    if (plan === "ahamo" ) {
+      phoneBalloon.style.display = "none";
+      phonePointInput.style.display = "none";
+      phoneDash.style.display = "flex";
+    } 
 
-} else if (plan === "irumo" || plan === "mini") {
-  phoneBalloon.style.display = "flex";
-  phonePointInput.style.display = "block";
-  phoneDash.style.display = "none";
+    // --- irumo ---
+   else if (plan === "irumo" || "mini" ) {
+      phoneBalloon.style.display = "flex";
+      phonePointInput.style.display = "block";
+      phoneDash.style.display = "none";
 
-  phoneRateEl.value =
-    card === "normal" ? 0.5 : 1;
+      phoneRateEl.value =
+        card === "normal" ? 0.5 : 1;
+    } 
 
-} else {
-  phoneBalloon.style.display = "flex";
-  phonePointInput.style.display = "block";
-  phoneDash.style.display = "none";
+    // --- その他プラン ---
+    else {
+      phoneBalloon.style.display = "flex";
+      phonePointInput.style.display = "block";
+      phoneDash.style.display = "none";
 
-  phoneRateEl.value = DCARD[card].rate;
-}
+      phoneRateEl.value = DCARD[card].rate;
+    }
+  }
 
   // ===== ドコモ光 還元率 =====
   setRate(`${side}-hikari-rate`, DCARD[card].rate);
