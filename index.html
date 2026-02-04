@@ -586,7 +586,7 @@ h1 {
 
     <span class="balloon balloon-right">    <input
       type="number"
-      id="r-phone-rate"
+      id="r-phone-rate "
       class="rate-input"
       placeholder="00"
       min="0"
@@ -795,12 +795,7 @@ pt
 function n(value){return Number(value||0);}
 
 function setPlanPrice(){
-
-  // 🔥 プラン変更時：右側を全部リセット
-  resetSide("r");
-
   const plan = document.getElementById("r-plan");
-
   const price = plan.value;
   document.getElementById("r-base").value = price || "";
 
@@ -872,45 +867,8 @@ function disableDiscount(ids, disabled) {
   });
 }
 
-// ===== 変更時の一括リセット =====
-function resetSide(prefix) {
-  // 割引 select
-  document.querySelectorAll(`.${prefix}-discount`).forEach(sel => {
-    sel.value = "0";
-    sel.disabled = false;
-    sel.closest(".cell")?.classList.remove("disabled-cell");
-  });
-
-  // その他割引 input
-  document.querySelectorAll(`.${prefix}-discount-other`).forEach(inp => {
-    inp.value = "";
-    inp.disabled = false;
-    inp.parentElement.style.display = "none";
-  });
-
-  // ポイント
-  document.querySelectorAll(`.${prefix}-point`).forEach(p => {
-    p.value = "";
-  });
-
-  // 還元率（%）
-  [
-    `${prefix}-phone-rate`,
-    `${prefix}-hikari-rate`,
-    `${prefix}-poi-rate`
-  ].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = "";
-  });
-}
-
 // === メイン処理 === //
-
 function applyDcard(side) {
-
-  // 🔥 カード変更時：該当側をリセット
-  resetSide(side);
-
   const card = document.getElementById(`${side}-card`).value;
   if (!card) return;
 
@@ -926,12 +884,6 @@ function applyDcard(side) {
     disableDiscount(
       ["r-minna", "r-long"],
       plan === "mini"
-    );
-
-disableDiscount(
-      ["r-minna", "r-long", "r-dcard-discount",
-"r-hikari", "r-denki"],
-      plan === "ahamo"
     );
 
     disableDiscount(
@@ -1017,4 +969,7 @@ document.addEventListener("input",calc);
 
 </body>
 </html>
+
+
+
 
