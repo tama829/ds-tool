@@ -887,6 +887,17 @@ function setRate(id, value) {
 // === メイン処理 === //
 
 function applyDcard(side) {
+
+const phoneRateEl = document.getElementById("r-phone-rate");
+if (!phoneRateEl) return;
+
+const phoneBalloon = phoneRateEl.closest(".balloon");
+if (!phoneBalloon) return;
+
+const phonePointInput =
+  phoneBalloon.parentElement.querySelector(".r-point");
+const phoneDash = document.getElementById("r-phone-dash");
+
   const card = document.getElementById(`${side}-card`).value;
   if (!card) return;
 
