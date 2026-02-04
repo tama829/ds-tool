@@ -843,12 +843,14 @@ function setPlanPrice(){
 
 
 // ==== プラン判定用ヘルパー === //
+
 function getPlanType() {
   const plan = document.getElementById("r-plan");
   if (!plan.value) return "";
 
   const t = plan.options[plan.selectedIndex].text;
 
+  if (t.includes("irumo（0.5GB）")) return "irumo05";
   if (t.includes("MAX")) return "MAX";
   if (t.includes("20")) return "20";
   if (t.includes("irumo")) return "irumo";
@@ -890,15 +892,15 @@ function applyDcard(side) {
 
   const plan = side === "r" ? getPlanType() : "";
 
-  // ===== dカード割 =====
-  if (plan !== "ahamo") {
-    const value =
-      ["irumo", "eximo", "gigalite"].includes(plan)
-        ? 187
-        : DCARD[card].discount;
+// ===== dカード割 =====
+if (plan !== "ahamo" && plan !== "irumo05") {
+  const value =
+    ["irumo", "eximo", "gigalite"].includes(plan)
+      ? 187
+      : DCARD[card].discount;
 
-    setDiscount(side, value);
-  }
+  setDiscount(side, value);
+}
 
   // ===== ケータイ料金 還元率制御（右側のみ） =====
   if (side === "r") {
