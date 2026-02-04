@@ -231,6 +231,30 @@ h1 {
 
 <body>
 
+<div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+  <button id="reset-l" style="
+    padding:6px 12px;
+    font-size:13px;
+    border:1px solid #ccc;
+    background:#fff;
+    border-radius:4px;
+    cursor:pointer;
+  ">
+   リセット
+  </button>
+
+  <button id="reset-r" style="
+    padding:6px 12px;
+    font-size:13px;
+    border:1px solid #ccc;
+    background:#fff;
+    border-radius:4px;
+    cursor:pointer;
+  ">
+    リセット
+  </button>
+</div>
+
 <!-- ロゴ -->
 <div class="logo-wrap">
   <img src="logo.png.PNG" alt="ドコモポイ活MAX 料金比較ツール">
@@ -971,6 +995,78 @@ function calc(){
 }
 
 document.addEventListener("input",calc);
+
+function resetRight() {
+  // プラン・基本料金
+  document.getElementById("r-plan").value = "";
+  document.getElementById("r-base").value = "";
+
+  // dカード
+  document.getElementById("r-card").value = "";
+
+  // 割引セレクト（r-）
+  document.querySelectorAll(".r-discount").forEach(sel => {
+    sel.value = "0";
+    const wrap = document.getElementById(sel.dataset.other + "-wrap");
+    if (wrap) wrap.style.display = "none";
+  });
+
+  // 割引「その他」入力
+  document.querySelectorAll(".r-discount-other").forEach(inp => inp.value = "");
+
+  // ポイント入力
+  document.querySelectorAll(".r-point").forEach(inp => inp.value = "");
+
+  // 還元率入力（右側）
+  document.querySelectorAll("#poi-balloon-r input, .balloon-right input").forEach(inp => {
+    inp.value = "";
+  });
+
+  // ポイ活特典表示を初期状態へ
+  document.getElementById("poi-balloon-r").style.display = "none";
+  document.getElementById("poi-input-r").style.display   = "none";
+  document.getElementById("poi-yen-r").style.display     = "none";
+  document.getElementById("poi-dash-r").style.display    = "flex";
+
+  // ポイ活ファミリー特典
+  document.getElementById("family-input-r").style.display = "none";
+  document.getElementById("family-yen-r").style.display   = "none";
+  document.getElementById("family-dash-r").style.display  = "flex";
+
+  // ケータイ料金（ahamo等の表示切替を初期に）
+  document.getElementById("r-phone-dash").style.display = "none";
+
+  calc();
+}
+
+function resetLeft() {
+  // dカード
+  document.getElementById("l-card").value = "";
+
+  // 割引セレクト（l-）
+  document.querySelectorAll(".l-discount").forEach(sel => {
+    sel.value = "0";
+    const wrap = document.getElementById(sel.dataset.other + "-wrap");
+    if (wrap) wrap.style.display = "none";
+  });
+
+  // 割引「その他」入力
+  document.querySelectorAll(".l-discount-other").forEach(inp => inp.value = "");
+
+  // ポイント入力
+  document.querySelectorAll(".l-point").forEach(inp => inp.value = "");
+
+  // 還元率入力（左側）
+  document.querySelectorAll(".balloon-left input").forEach(inp => {
+    inp.value = "";
+  });
+
+  calc();
+}
+
+document.getElementById("reset-r").addEventListener("click", resetRight);
+document.getElementById("reset-l").addEventListener("click", resetLeft);
+
 </script>
 
 </body>
