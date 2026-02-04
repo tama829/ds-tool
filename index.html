@@ -858,12 +858,30 @@ function setRate(id, value) {
 }
 
 // === グレーアウト === //
+
 function disableDiscount(ids, disabled) {
   ids.forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
+
+    const cell = el.closest(".cell");
+    const otherWrap = document.getElementById(el.dataset.other + "-wrap");
+    const otherInput = document.getElementById(el.dataset.other);
+
+    // select
     el.disabled = disabled;
-    el.closest(".cell")?.classList.toggle("disabled-cell", disabled);
+
+    // cell 見た目
+    cell?.classList.toggle("disabled-cell", disabled);
+
+    // その他入力も完全無効化
+    if (otherInput) {
+      otherInput.disabled = disabled;
+      if (disabled) {
+        otherInput.value = "";
+        otherWrap.style.display = "none";
+      }
+    }
   });
 }
 
