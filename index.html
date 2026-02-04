@@ -937,6 +937,9 @@ if (plan !== "ahamo" && plan !== "irumo05") {
   // ===== ドコモ光 還元率 =====
   setRate(`${side}-hikari-rate`, DCARD[card].rate);
 
+  // ===== ケータイ料金 還元率 =====
+  setRate(`${side}-phone-rate`, DCARD[card].rate);
+
   // ===== ポイ活20特典 =====
   if (side === "r" && plan === "20") {
     setRate("r-poi-rate", 5);
