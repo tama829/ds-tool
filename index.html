@@ -827,8 +827,7 @@ function getPlanType() {
 
   if (t.includes("MAX")) return "MAX";
   if (t.includes("20")) return "20";
-  if (t.includes("irumo(3GB)"||"irumo(6GB)"||"irumo(9GB)")) return "irumo";
-  if (t.includes("0.5GB")) return "0.5";
+  if (t.includes("irumo")) return "irumo";
   if (t.includes("mini")) return "mini";
   if (t.includes("eximo")) return "eximo";
   if (t.includes("ギガライト")) return "gigalite";
@@ -868,7 +867,7 @@ function applyDcard(side) {
   const plan = side === "r" ? getPlanType() : "";
 
   // ===== dカード割 =====
-  if (plan !== "ahamo", "0.5") {
+  if (plan !== "ahamo") {
     const value =
       ["irumo", "eximo", "gigalite"].includes(plan)
         ? 187
@@ -891,7 +890,7 @@ function applyDcard(side) {
       phoneDash.style.display = "flex";
     } 
     // --- irumo / mini ---
-    else if (plan === "irumo"||"0.5" || plan === "mini") {
+    else if (plan === "irumo" || plan === "mini") {
       phoneBalloon.style.display = "flex";
       phonePointInput.style.display = "block";
       phoneDash.style.display = "none";
