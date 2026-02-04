@@ -602,9 +602,14 @@ h1 {
     >
     <span>%還元</span>
 </span>
-
     <input type="number" class="r-point number-input" placeholder="ポイント入力">
     <span class="yen">pt</span>
+<span
+  id="r-phone-dash"
+  style="display:none; align-items:center; color:#aaa;"
+>
+  ー
+</span>
   </div>
 </div>
 
@@ -854,6 +859,7 @@ function setRate(id, value) {
 }
 
 // === メイン処理 === //
+
 function applyDcard(side) {
   const card = document.getElementById(`${side}-card`).value;
   if (!card) return;
@@ -870,14 +876,46 @@ function applyDcard(side) {
     setDiscount(side, value);
   }
 
-  // ===== 還元率 =====
-  setRate(`${side}-phone-rate`, DCARD[card].rate);
+  // ===== ケータイ料金 還元率制御（右側のみ） =====
+  if (side === "r") {
+    const phoneRateEl = document.getElementById("r-phone-rate");
+    const phoneBalloon = phoneRateEl.closest(".balloon");
+    const phonePointInput = phoneBalloon.parentElement.querySelector(".r-point");
+    const phoneDash = document.getElementById("r-phone-dash");
+
+    // --- ahamo ---
+    if (plan === "ahamo") {
+      phoneBalloon.style.display = "none";
+      phonePointInput.style.display = "none";
+      phoneDash.style.display = "flex";
+    } 
+    // --- irumo / mini ---
+    else if (plan === "irumo" || plan === "mini") {
+      phoneBalloon.style.display = "flex";
+      phonePointInput.style.display = "block";
+      phoneDash.style.display = "none";
+
+      phoneRateEl.value =
+        card === "normal" ? 0.5 : 1;
+    } 
+    // --- その他プラン ---
+    else {
+      phoneBalloon.style.display = "flex";
+      phonePointInput.style.display = "block";
+      phoneDash.style.display = "none";
+
+      phoneRateEl.value = DCARD[card].rate;
+    }
+  }
+
+  // ===== ドコモ光 還元率 =====
   setRate(`${side}-hikari-rate`, DCARD[card].rate);
 
-  // ===== ポイ活=====
+  // ===== ポイ活20特典 =====
   if (side === "r" && plan === "20") {
     setRate("r-poi-rate", 5);
   }
+
   calc();
 }
 
