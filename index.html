@@ -850,6 +850,8 @@ function getPlanType() {
 
   const t = plan.options[plan.selectedIndex].text;
 
+  if (t.includes("ahamoポイ活")) return "ahamo-poi";
+  if (t.includes("eximoポイ活")) return "eximo-poi";
   if (t.includes("irumo（0.5GB）")) return "irumo05";
   if (t.includes("MAX")) return "MAX";
   if (t.includes("20")) return "20";
@@ -946,9 +948,16 @@ if (plan !== "ahamo" && plan !== "irumo05") {
   if (side === "r" && plan === "20") {
     setRate("r-poi-rate", 5);
   }
-
   calc();
 }
+
+  // ===== ahamoポイ活特典 =====
+  if (side === "r" && plan === "ahamo-poi") {
+    setRate("r-poi-rate", 10);
+  }
+  calc();
+}
+
 
 // 「その他」入力の表示切替
 function handleOther(select){
@@ -1004,6 +1013,7 @@ function calc(){
 document.addEventListener("input",calc);
 
 function resetRight() {
+
   // プラン・基本料金
   document.getElementById("r-plan").value = "";
   document.getElementById("r-base").value = "";
