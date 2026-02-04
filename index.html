@@ -218,6 +218,12 @@ h1 {
   margin-top: 20px;
 }
 
+.disabled-cell {
+  background: #f0f0f0 !important;
+  color: #999;
+  pointer-events: none;
+}
+
 </style>
 </head>
 
@@ -274,6 +280,31 @@ h1 {
   <div class="cell price-cell base-price">
     <input type="number" id="r-base" class="number-input" placeholder="金額入力">
     <span class="yen">円</span>
+  </div>
+</div>
+
+<!-- ===== dカード ===== -->
+<div class="row">
+  <div class="cell">
+    <select id="l-card" onchange="applyDcard('l')">
+      <option value="">ー</option>
+      <option value="normal">dカード</option>
+      <option value="goldu">dカードGOLD U</option>
+      <option value="gold">dカードGOLD</option>
+      <option value="platinum">dカードPLATINUM</option>
+    </select>
+  </div>
+
+  <div class="cell">dカード</div>
+
+  <div class="cell">
+    <select id="r-card" onchange="applyDcard('r')">
+      <option value="">ー</option>
+      <option value="normal">dカード</option>
+      <option value="goldu">dカードGOLD U</option>
+      <option value="gold">dカードGOLD</option>
+      <option value="platinum">dカードPLATINUM</option>
+    </select>
   </div>
 </div>
 
@@ -774,12 +805,125 @@ function setPlanPrice(){
   calc();
 }
 
+
+// ==== プラン判定用ヘルパー === //
+function getPlanType() {
+  const plan = document.getElementById("r-plan");
+  if (!plan.value) return "";
+
+  const text = plan.options[plan.selectedIndex].text;
+
+  if (text.includes("MAX")) return "MAX";
+  if (text.includes("20")) return "20";
+  if (text.includes("irumo")) return "irumo";
+  if (text.includes("mini")) return "mini";
+  if (text.includes("eximo")) return "eximo";
+  if (text.includes("ギガライト")) return "gigalite";
+  if (text.includes("ahamo")) return "ahamo";
+
+  return "";
+}
+
 // 「その他」入力の表示切替
 function handleOther(select){
   const otherId = select.dataset.other;
   const wrap = document.getElementById(otherId+"-wrap");
   if(select.value==="other"){wrap.style.display="flex";}
   else{wrap.style.display="none";document.getElementById(otherId).value="";}
+  calc();
+}
+
+// === 割引還元率 === //
+const dcardMaster = {
+  normal: {
+    discount: { default: 220, irumo: 187, eximo: 187, gigalite: 187 },
+    rate: { base: 1, goldu: 5 }
+  },
+  goldu: {
+    discount: { default: 550, irumo: 187, eximo: 187, gigalite: 187 },
+    rate: { base: 5 }
+  },
+  gold: {
+    discount: { default: 550, irumo: 187, eximo: 187, gigalite: 187 },
+    rate: { base: 10 }
+  },
+  platinum: {
+    discount: { default: 550, irumo: 187, eximo: 187, gigalite: 187 },
+    rate: { base: 20 }
+  }
+};
+
+// === 割引入力 === //
+function setDcardDiscount(side, value) {
+  const select = document.querySelector(
+    `.${side}-discount option[value="220"], .${side}-discount option[value="550"], .${side}-discount option[value="187"]`
+  );
+  if (!select) return;
+
+  select.parentElement.value = value;
+}
+
+// === 吹き出し還元率 === //
+function setRate(cellLabel, side, rate) {
+  document.querySelectorAll(`.${side}-point`).forEach(inp => {
+    const balloon = inp.closest(".price-cell")?.querySelector(".rate-input");
+    if (balloon) balloon.value = rate;
+  });
+}
+
+// === グレーアウト === //
+function toggleDisabled(ids, disabled) {
+  ids.forEach(id => {
+    const cell = document.getElementById(id);
+    if (!cell) return;
+    cell.classList.toggle("disabled-cell", disabled);
+  });
+}
+
+// === メイン処理 === //
+function applyDcard(side) {
+  const card = document.getElementById(`${side}-card`).value;
+  if (!card) return;
+
+  const planType = side === "r" ? getPlanType() : "default";
+
+  // ===== グレーアウト制御（右のみ）=====
+  if (side === "r") {
+    toggleDisabled(
+      ["r-minna", "r-long", "r-denki"],
+      ["irumo", "gigalite"].includes(planType)
+    );
+    toggleDisabled(
+      ["r-minna", "r-long"],
+      planType === "mini"
+    );
+    toggleDisabled(
+      ["r-long", "r-denki"],
+      planType === "eximo"
+    );
+  }
+
+  // ===== 割引 =====
+  const discount =
+    dcardMaster[card].discount[planType] ??
+    dcardMaster[card].discount.default ??
+    0;
+
+  if (discount) {
+    setDcardDiscount(side, discount);
+  }
+
+  // ===== 還元率 =====
+  let rate = dcardMaster[card].rate.base || 0;
+
+  if (side === "r" && planType === "20") {
+    // ポイ活特典 5%
+    document.querySelector("#poi-balloon-r .rate-input").value = 5;
+  }
+
+  setRate("ケータイ料金", side, rate);
+  setRate("ドコモ光", side, rate);
+
   calc();
 }
 
