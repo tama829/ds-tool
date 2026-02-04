@@ -794,46 +794,13 @@ pt
 <script>
 function n(value){return Number(value||0);}
 
-function applyDcard(side) {
-  resetSide(side);
-
-  const card = document.getElementById(`${side}-card`).value;
-  if (!card) return;
-
-function resetSide(prefix) {
-  // 割引 select
-  document.querySelectorAll(`.${prefix}-discount`).forEach(sel => {
-    sel.value = "0";
-    sel.disabled = false;
-    sel.closest(".cell")?.classList.remove("disabled-cell");
-  });
-
-  // その他割引 input
-  document.querySelectorAll(`.${prefix}-discount-other`).forEach(inp => {
-    inp.value = "";
-    inp.disabled = false;
-    inp.parentElement.style.display = "none";
-  });
-
-  // ポイント
-  document.querySelectorAll(`.${prefix}-point`).forEach(p => p.value = "");
-
-  // 還元率（%）
-  document.querySelectorAll(`#${prefix}-phone-rate, #${prefix}-hikari-rate, #${prefix}-poi-rate`)
-    .forEach(r => { if (r) r.value = ""; });
-}
-
 function setPlanPrice(){
+
+  // 🔥 プラン変更時：右側を全部リセット
   resetSide("r");
 
   const plan = document.getElementById("r-plan");
-  const price = plan.value;
-  document.getElementById("r-base").value = price || "";
 
-  const text = plan.options[plan.selectedIndex].text;
-  const isPoi = text.includes("ポイ活");
-
-  const plan = document.getElementById("r-plan");
   const price = plan.value;
   document.getElementById("r-base").value = price || "";
 
@@ -896,35 +863,54 @@ function setRate(id, value) {
 }
 
 // === グレーアウト === //
-
 function disableDiscount(ids, disabled) {
   ids.forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
-
-    const cell = el.closest(".cell");
-    const otherWrap = document.getElementById(el.dataset.other + "-wrap");
-    const otherInput = document.getElementById(el.dataset.other);
-
-    // select
     el.disabled = disabled;
+    el.closest(".cell")?.classList.toggle("disabled-cell", disabled);
+  });
+}
 
-    // cell 見た目
-    cell?.classList.toggle("disabled-cell", disabled);
+// ===== 変更時の一括リセット =====
+function resetSide(prefix) {
+  // 割引 select
+  document.querySelectorAll(`.${prefix}-discount`).forEach(sel => {
+    sel.value = "0";
+    sel.disabled = false;
+    sel.closest(".cell")?.classList.remove("disabled-cell");
+  });
 
-    // その他入力も完全無効化
-    if (otherInput) {
-      otherInput.disabled = disabled;
-      if (disabled) {
-        otherInput.value = "";
-        otherWrap.style.display = "none";
-      }
-    }
+  // その他割引 input
+  document.querySelectorAll(`.${prefix}-discount-other`).forEach(inp => {
+    inp.value = "";
+    inp.disabled = false;
+    inp.parentElement.style.display = "none";
+  });
+
+  // ポイント
+  document.querySelectorAll(`.${prefix}-point`).forEach(p => {
+    p.value = "";
+  });
+
+  // 還元率（%）
+  [
+    `${prefix}-phone-rate`,
+    `${prefix}-hikari-rate`,
+    `${prefix}-poi-rate`
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
   });
 }
 
 // === メイン処理 === //
+
 function applyDcard(side) {
+
+  // 🔥 カード変更時：該当側をリセット
+  resetSide(side);
+
   const card = document.getElementById(`${side}-card`).value;
   if (!card) return;
 
@@ -932,9 +918,9 @@ function applyDcard(side) {
 
   // ===== 割引対象外 =====
   if (side === "r") {
-disableDiscount(
+    disableDiscount(
       ["r-minna", "r-long", "r-denki"],
-      plan === "irumo", "gigalite"
+      ["irumo", "gigalite"].includes(plan)
     );
 
     disableDiscount(
@@ -1031,7 +1017,4 @@ document.addEventListener("input",calc);
 
 </body>
 </html>
-
-
-
 
