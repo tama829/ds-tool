@@ -230,6 +230,18 @@ h1 {
   pointer-events: none;
 }
 
+.rate-input {
+  width: 23px;
+  height: 22px;
+  font-size: 13px;
+  text-align: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid #ccc;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
 </style>
 </head>
 
@@ -519,17 +531,6 @@ h1 {
       min="0"
       max="99"
       inputmode="numeric"
-      style="
-        width: 23px;
-        height: 22px;
-        font-size: 13px;
-        text-align: center;
-        padding: 0;
-        border: none;
-        background: transparent;
-        border-bottom: 1px solid #ccc;
-        font-family: "Noto Sans JP", sans-serif;
-      "
     >
     <span>%還元</span>
   </div>
@@ -562,17 +563,6 @@ h1 {
       min="0"
       max="99"
       inputmode="numeric"
-      style="
-        width: 23px;
-        height: 22px;
-        font-size: 13px;
-        text-align: center;
-        padding: 0;
-        border: none;
-        background: transparent;
-        border-bottom: 1px solid #ccc;
-        font-family: "Noto Sans JP", sans-serif;
-      "
     >
     <span>%還元</span>
 </span>
@@ -586,23 +576,12 @@ h1 {
 
     <span class="balloon balloon-right">    <input
       type="number"
-      id="r-phone-rate "
+      id="r-phone-rate"
       class="rate-input"
       placeholder="00"
       min="0"
       max="99"
       inputmode="numeric"
-      style="
-        width: 23px;
-        height: 22px;
-        font-size: 13px;
-        text-align: center;
-        padding: 0;
-        border: none;
-        background: transparent;
-        border-bottom: 1px solid #ccc;
-        font-family: "Noto Sans JP", sans-serif;
-      "
     >
     <span>%還元</span>
 </span>
@@ -624,17 +603,6 @@ h1 {
       min="0"
       max="99"
       inputmode="numeric"
-      style="
-        width: 23px;
-        height: 22px;
-        font-size: 13px;
-        text-align: center;
-        padding: 0;
-        border: none;
-        background: transparent;
-        border-bottom: 1px solid #ccc;
-        font-family: "Noto Sans JP", sans-serif;
-      "
     >
     <span>%還元</span>
 </span>
@@ -655,17 +623,6 @@ h1 {
       min="0"
       max="99"
       inputmode="numeric"
-      style="
-        width: 23px;
-        height: 22px;
-        font-size: 13px;
-        text-align: center;
-        padding: 0;
-        border: none;
-        background: transparent;
-        border-bottom: 1px solid #ccc;
-        font-family: "Noto Sans JP", sans-serif;
-      "
     >
     <span>%還元</span>
 </span>
@@ -686,17 +643,6 @@ h1 {
       min="0"
       max="99"
       inputmode="numeric"
-      style="
-        width: 23px;
-        height: 22px;
-        font-size: 13px;
-        text-align: center;
-        padding: 0;
-        border: none;
-        background: transparent;
-        border-bottom: 1px solid #ccc;
-        font-family: "Noto Sans JP", sans-serif;
-      "
     >
     <span>%還元</span>
 </span>
@@ -716,17 +662,6 @@ h1 {
       min="0"
       max="99"
       inputmode="numeric"
-      style="
-        width: 23px;
-        height: 22px;
-        font-size: 13px;
-        text-align: center;
-        padding: 0;
-        border: none;
-        background: transparent;
-        border-bottom: 1px solid #ccc;
-        font-family: "Noto Sans JP", sans-serif;
-      "
     >
     <span>%還元</span>
 </span>
@@ -876,20 +811,13 @@ function applyDcard(side) {
 
   // ===== 割引対象外 =====
   if (side === "r") {
-    disableDiscount(
-      ["r-minna", "r-long", "r-denki"],
-      ["irumo", "gigalite"].includes(plan)
-    );
-
-    disableDiscount(
-      ["r-minna", "r-long"],
-      plan === "mini"
-    );
-
-    disableDiscount(
-      ["r-long", "r-denki"],
-      plan === "eximo"
-    );
+ const DISABLE_RULES = {
+  irumo: ["r-minna","r-long","r-denki"],
+  gigalite: ["r-minna","r-long","r-denki"],
+  mini: ["r-minna","r-long"],
+  eximo: ["r-long","r-denki"]
+  ahamo: ["r-minna","r-long","r-dcard-discount ","r-hikari","r-denki"]
+};
   }
 
   // ===== dカード割 =====
