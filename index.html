@@ -199,6 +199,12 @@ h1 {
 .balloon-left::after {
   left: 10px;
 }
+.balloon-left input {
+  color: #fff;
+}
+.balloon-left input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
 
 /* 右用 */
 .balloon-right {
@@ -507,6 +513,7 @@ h1 {
   <div style="display:flex; gap:4px; align-items:center;">
     <input
       type="number"
+      id="r-poi-rate"
       class="rate-input"
       placeholder="00"
       min="0"
@@ -836,8 +843,6 @@ const DCARD = {
   platinum: { discount: 550, rate: 20 }
 };
 
-applyDcard("r");
-
 //===割引金額セット===//
 function setDiscount(side, value) {
   const el = document.getElementById(`${side}-dcard-discount`);
@@ -852,15 +857,6 @@ function setRate(id, value) {
   el.value = value;
 }
 
-// 「その他」入力の表示切替
-function handleOther(select){
-  const otherId = select.dataset.other;
-  const wrap = document.getElementById(otherId+"-wrap");
-  if(select.value==="other"){wrap.style.display="flex";}
-  else{wrap.style.display="none";document.getElementById(otherId).value="";}
-  calc();
-}
-
 // === グレーアウト === //
 function disableDiscount(ids, disabled) {
   ids.forEach(id => {
@@ -872,7 +868,6 @@ function disableDiscount(ids, disabled) {
 }
 
 // === メイン処理 === //
-
 function applyDcard(side) {
   const card = document.getElementById(`${side}-card`).value;
   if (!card) return;
@@ -908,14 +903,48 @@ function applyDcard(side) {
   }
 
   // ===== 還元率 =====
-  setRate(`${side}-phone-rate`, DCARD[card].rate);
   setRate(`${side}-hikari-rate`, DCARD[card].rate);
 
-  // ===== ポイ活20 =====
+  // ===== ポイ活=====
   if (side === "r" && plan === "20") {
     setRate("r-poi-rate", 5);
   }
+  calc();
+}
 
+if (side === "r" && plan === "ahamoポイ活") {
+    setRate("r-poi-rate", 10);
+  }
+  calc();
+}
+
+if (side === "r" && plan === "eximoポイ活" && card === "normal") {
+    setRate("r-poi-rate", 3);
+  }
+  calc();
+}
+if (side === "r" && plan === "eximoポイ活" && card === "goldu") {
+    setRate("r-poi-rate", 5);
+  }
+  calc();
+}
+ if (side === "r" && plan === "eximoポイ活" && card === "gold") {
+    setRate("r-poi-rate", 5);
+  }
+  calc();
+}
+if (side === "r" && plan === "eximoポイ活" && card === "platinum") {
+    setRate("r-poi-rate", 10);
+  }
+  calc();
+}
+
+// 「その他」入力の表示切替
+function handleOther(select){
+  const otherId = select.dataset.other;
+  const wrap = document.getElementById(otherId+"-wrap");
+  if(select.value==="other"){wrap.style.display="flex";}
+  else{wrap.style.display="none";document.getElementById(otherId).value="";}
   calc();
 }
 
