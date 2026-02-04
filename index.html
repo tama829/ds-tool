@@ -175,7 +175,6 @@ h1 {
   font-size: 14px;
   color: #fff;
   border-radius: 10px;
-  background: #c7000b;
   position: absolute;
   top: -20px;
   z-index: 5;
@@ -189,15 +188,16 @@ h1 {
   position: absolute;
   top: 100%;
   border: 5px solid transparent;
-  border-top-color: #c7000b;
 }
 
 /* 左用 */
 .balloon-left {
   left: -6px;
+  background: #c7000b;
 }
 .balloon-left::after {
   left: 10px;
+  border-top-color: #c7000b;
 }
 .balloon-left input {
   color: #fff;
@@ -209,9 +209,11 @@ h1 {
 /* 右用 */
 .balloon-right {
   right: -6px;
+  background: #999;
 }
 .balloon-right::after {
   right: 10px;
+  border-top-color: #999;
 }
 .balloon-right input {
   color: #fff;
@@ -222,12 +224,6 @@ h1 {
 
 .poi-row {
   margin-top: 20px;
-}
-
-.disabled-cell {
-  background: #f0f0f0 !important;
-  color: #999;
-  pointer-events: none;
 }
 
 </style>
@@ -857,40 +853,12 @@ function setRate(id, value) {
   el.value = value;
 }
 
-// === グレーアウト === //
-function disableDiscount(ids, disabled) {
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.disabled = disabled;
-    el.closest(".cell")?.classList.toggle("disabled-cell", disabled);
-  });
-}
-
 // === メイン処理 === //
 function applyDcard(side) {
   const card = document.getElementById(`${side}-card`).value;
   if (!card) return;
 
   const plan = side === "r" ? getPlanType() : "";
-
-  // ===== 割引対象外 =====
-  if (side === "r") {
-    disableDiscount(
-      ["r-minna", "r-long", "r-denki"],
-      ["irumo", "gigalite"].includes(plan)
-    );
-
-    disableDiscount(
-      ["r-minna", "r-long"],
-      plan === "mini"
-    );
-
-    disableDiscount(
-      ["r-long", "r-denki"],
-      plan === "eximo"
-    );
-  }
 
   // ===== dカード割 =====
   if (plan !== "ahamo") {
