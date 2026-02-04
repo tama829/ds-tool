@@ -828,6 +828,7 @@ function getPlanType() {
   if (t.includes("MAX")) return "MAX";
   if (t.includes("20")) return "20";
   if (t.includes("irumo")) return "irumo";
+  if (t.includes("0.5GB")) return "0.5";
   if (t.includes("mini")) return "mini";
   if (t.includes("eximo")) return "eximo";
   if (t.includes("ギガライト")) return "gigalite";
@@ -867,7 +868,7 @@ function applyDcard(side) {
   const plan = side === "r" ? getPlanType() : "";
 
   // ===== dカード割 =====
-  if (plan !== "ahamo") {
+  if (plan !== "ahamo", "0.5") {
     const value =
       ["irumo", "eximo", "gigalite"].includes(plan)
         ? 187
@@ -884,7 +885,7 @@ function applyDcard(side) {
     const phoneDash = document.getElementById("r-phone-dash");
 
     // --- ahamo ---
-    if (plan === "ahamo") {
+    if (plan === "ahamo" ) {
       phoneBalloon.style.display = "none";
       phonePointInput.style.display = "none";
       phoneDash.style.display = "flex";
