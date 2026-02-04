@@ -870,6 +870,33 @@ const DCARD = {
   platinum: { discount: 550, rate: 20 }
 };
 
+function setPoiRateByPlanAndCard() {
+  const planSelect = document.getElementById("r-plan");
+  const card = document.getElementById("r-card").value;
+  const poiRateEl = document.getElementById("r-poi-rate");
+
+  if (!planSelect.value || !card) return;
+
+  const planText = planSelect.options[planSelect.selectedIndex].text;
+
+  // ahamoポイ活 → 10%
+  if (planText.includes("ahamoポイ活")) {
+    poiRateEl.value = 10;
+    return;
+  }
+
+  // eximoポイ活
+  if (planText.includes("eximoポイ活")) {
+    if (card === "normal") {
+      poiRateEl.value = 3;
+    } else if (card === "goldu" || card === "gold") {
+      poiRateEl.value = 5;
+    } else if (card === "platinum") {
+      poiRateEl.value = 10;
+    }
+  }
+}
+
 //===割引金額セット===//
 function setDiscount(side, value) {
   const el = document.getElementById(`${side}-dcard-discount`);
@@ -946,6 +973,11 @@ if (plan !== "ahamo" && plan !== "irumo05") {
   if (side === "r" && plan === "20") {
     setRate("r-poi-rate", 5);
   }
+
+// ===== ポイ活特典 還元率 =====
+if (side === "r") {
+  setPoiRateByPlanAndCard();
+}
 
   calc();
 }
