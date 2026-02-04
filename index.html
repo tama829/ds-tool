@@ -312,7 +312,7 @@ h1 {
 <!-- みんなドコモ割 -->
 <div class="row">
   <div class="cell">
-    <select class="l-discount" data-other="l-d1-o-1" onchange="handleOther(this)">
+    <select id="l-minna" class="l-discount" data-other="l-d1-o-1" onchange="handleOther(this)">
       <option value="0">ー</option>
       <option value="550">550円</option>
       <option value="1210">1,210円</option>
@@ -324,7 +324,7 @@ h1 {
   </div>
   <div class="cell">みんなドコモ割</div>
   <div class="cell">
-    <select class="r-discount" data-other="r-d1-o-1" onchange="handleOther(this)">
+    <select id="r-minna" class="r-discount" data-other="r-d1-o-1" onchange="handleOther(this)">
       <option value="0">ー</option>
       <option value="550">550円</option>
       <option value="1100">1,100円</option>
@@ -340,7 +340,7 @@ h1 {
 <!-- 長期利用割 -->
 <div class="row">
   <div class="cell">
-    <select class="l-discount" data-other="l-d1-o-2" onchange="handleOther(this)">
+    <select id="l-long" class="l-discount" data-other="l-d1-o-2" onchange="handleOther(this)">
       <option value="0">ー</option>
       <option value="110">110円</option>
       <option value="220">220円</option>
@@ -352,7 +352,7 @@ h1 {
   </div>
   <div class="cell">長期利用割</div>
   <div class="cell">
-    <select class="r-discount" data-other="r-d1-o-2" onchange="handleOther(this)">
+    <select id="r-long" class="r-discount" data-other="r-d1-o-2" onchange="handleOther(this)">
       <option value="0">ー</option>
       <option value="110">110円</option>
       <option value="220">220円</option>
@@ -367,7 +367,7 @@ h1 {
 <!-- dカードお支払い割 -->
 <div class="row">
   <div class="cell">
-    <select class="l-discount" data-other="l-d1-o-3" onchange="handleOther(this)">
+    <select id="l-dcard-discount" class="l-discount" data-other="l-d1-o-3" onchange="handleOther(this)">
       <option value="0">ー</option>
       <option value="220">220円</option>
       <option value="550">550円</option>
@@ -379,7 +379,7 @@ h1 {
   </div>
   <div class="cell">dカードお支払い割</div>
   <div class="cell">
-    <select class="r-discount" data-other="r-d1-o-3" onchange="handleOther(this)">
+    <select id="r-dcard-discount" class="r-discount" data-other="r-d1-o-3" onchange="handleOther(this)">
       <option value="0">ー</option>
       <option value="187">187円</option>
       <option value="220">220円</option>
@@ -395,7 +395,7 @@ h1 {
 <!-- ドコモ光/home5Gセット割 -->
 <div class="row">
   <div class="cell">
-    <select class="l-discount" data-other="l-d1-o-4" onchange="handleOther(this)">
+    <select id="l-hikari" class="l-discount" data-other="l-d1-o-4" onchange="handleOther(this)">
       <option value="0">ー</option>
       <option value="1210">1,210円</option>
       <option value="other">その他</option>
@@ -406,7 +406,7 @@ h1 {
   </div>
   <div class="cell">ドコモ光/home5Gセット割</div>
   <div class="cell">
-    <select class="r-discount" data-other="r-d1-o-4" onchange="handleOther(this)">
+    <select id="r-hikari" class="r-discount" data-other="r-d1-o-4" onchange="handleOther(this)">
       <option value="0">ー</option>
       <option value="550">550円</option>
       <option value="1100">1,100円</option>
@@ -422,7 +422,7 @@ h1 {
 <!-- でんきセット割 -->
 <div class="row">
   <div class="cell">
-    <select class="l-discount" data-other="l-d1-o-5" onchange="handleOther(this)">
+    <select id="l-denki" class="l-discount" data-other="l-d1-o-5" onchange="handleOther(this)">
       <option value="0">ー</option>
       <option value="110">110円</option>
       <option value="other">その他</option>
@@ -433,7 +433,7 @@ h1 {
   </div>
   <div class="cell">でんきセット割</div>
   <div class="cell">
-    <select class="r-discount" data-other="r-d1-o-5" onchange="handleOther(this)">
+    <select id="r-denki" class="r-discount" data-other="r-d1-o-5" onchange="handleOther(this)">
       <option value="0">ー</option>
       <option value="110">110円</option>
       <option value="other">その他</option>
@@ -549,6 +549,7 @@ h1 {
   <div class="cell price-cell">
     <span class="balloon balloon-left">    <input
       type="number"
+      id="l-phone-rate"
       class="rate-input"
       placeholder="00"
       min="0"
@@ -578,6 +579,7 @@ h1 {
 
     <span class="balloon balloon-right">    <input
       type="number"
+      id="r-phone-rate "
       class="rate-input"
       placeholder="00"
       min="0"
@@ -609,6 +611,7 @@ h1 {
 
     <span class="balloon balloon-left">    <input
       type="number"
+      id="l-hikari-rate"
       class="rate-input"
       placeholder="00"
       min="0"
@@ -639,6 +642,7 @@ h1 {
 
     <span class="balloon balloon-right">    <input
       type="number"
+      id="r-hikari-rate"
       class="rate-input"
       placeholder="00"
       min="0"
@@ -811,17 +815,41 @@ function getPlanType() {
   const plan = document.getElementById("r-plan");
   if (!plan.value) return "";
 
-  const text = plan.options[plan.selectedIndex].text;
+  const t = plan.options[plan.selectedIndex].text;
 
-  if (text.includes("MAX")) return "MAX";
-  if (text.includes("20")) return "20";
-  if (text.includes("irumo")) return "irumo";
-  if (text.includes("mini")) return "mini";
-  if (text.includes("eximo")) return "eximo";
-  if (text.includes("ギガライト")) return "gigalite";
-  if (text.includes("ahamo")) return "ahamo";
+  if (t.includes("MAX")) return "MAX";
+  if (t.includes("20")) return "20";
+  if (t.includes("irumo")) return "irumo";
+  if (t.includes("mini")) return "mini";
+  if (t.includes("eximo")) return "eximo";
+  if (t.includes("ギガライト")) return "gigalite";
+  if (t.includes("ahamo")) return "ahamo";
 
   return "";
+}
+
+//=== dカードマスタ===//
+const DCARD = {
+  normal:   { discount: 220, rate: 1 },
+  goldu:    { discount: 550, rate: 5 },
+  gold:     { discount: 550, rate: 10 },
+  platinum: { discount: 550, rate: 20 }
+};
+
+applyDcard("r");
+
+//===割引金額セット===//
+function setDiscount(side, value) {
+  const el = document.getElementById(`${side}-dcard-discount`);
+  if (!el) return;
+  el.value = value;
+}
+
+//===還元率セット===//
+function setRate(id, value) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.value = value;
 }
 
 // 「その他」入力の表示切替
@@ -833,96 +861,60 @@ function handleOther(select){
   calc();
 }
 
-// === 割引還元率 === //
-const dcardMaster = {
-  normal: {
-    discount: { default: 220, irumo: 187, eximo: 187, gigalite: 187 },
-    rate: { base: 1, goldu: 5 }
-  },
-  goldu: {
-    discount: { default: 550, irumo: 187, eximo: 187, gigalite: 187 },
-    rate: { base: 5 }
-  },
-  gold: {
-    discount: { default: 550, irumo: 187, eximo: 187, gigalite: 187 },
-    rate: { base: 10 }
-  },
-  platinum: {
-    discount: { default: 550, irumo: 187, eximo: 187, gigalite: 187 },
-    rate: { base: 20 }
-  }
-};
-
-// === 割引入力 === //
-function setDcardDiscount(side, value) {
-  const select = document.querySelector(
-    `.${side}-discount option[value="220"], .${side}-discount option[value="550"], .${side}-discount option[value="187"]`
-  );
-  if (!select) return;
-
-  select.parentElement.value = value;
-}
-
-// === 吹き出し還元率 === //
-function setRate(cellLabel, side, rate) {
-  document.querySelectorAll(`.${side}-point`).forEach(inp => {
-    const balloon = inp.closest(".price-cell")?.querySelector(".rate-input");
-    if (balloon) balloon.value = rate;
-  });
-}
-
 // === グレーアウト === //
-function toggleDisabled(ids, disabled) {
+function disableDiscount(ids, disabled) {
   ids.forEach(id => {
-    const cell = document.getElementById(id);
-    if (!cell) return;
-    cell.classList.toggle("disabled-cell", disabled);
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.disabled = disabled;
+    el.closest(".cell")?.classList.toggle("disabled-cell", disabled);
   });
 }
 
 // === メイン処理 === //
+
 function applyDcard(side) {
   const card = document.getElementById(`${side}-card`).value;
   if (!card) return;
 
-  const planType = side === "r" ? getPlanType() : "default";
+  const plan = side === "r" ? getPlanType() : "";
 
-  // ===== グレーアウト制御（右のみ）=====
+  // ===== 割引対象外 =====
   if (side === "r") {
-    toggleDisabled(
+    disableDiscount(
       ["r-minna", "r-long", "r-denki"],
-      ["irumo", "gigalite"].includes(planType)
+      ["irumo", "gigalite"].includes(plan)
     );
-    toggleDisabled(
+
+    disableDiscount(
       ["r-minna", "r-long"],
-      planType === "mini"
+      plan === "mini"
     );
-    toggleDisabled(
+
+    disableDiscount(
       ["r-long", "r-denki"],
-      planType === "eximo"
+      plan === "eximo"
     );
   }
 
-  // ===== 割引 =====
-  const discount =
-    dcardMaster[card].discount[planType] ??
-    dcardMaster[card].discount.default ??
-    0;
+  // ===== dカード割 =====
+  if (plan !== "ahamo") {
+    const value =
+      ["irumo", "eximo", "gigalite"].includes(plan)
+        ? 187
+        : DCARD[card].discount;
 
-  if (discount) {
-    setDcardDiscount(side, discount);
+    setDiscount(side, value);
   }
 
   // ===== 還元率 =====
-  let rate = dcardMaster[card].rate.base || 0;
+  setRate(`${side}-phone-rate`, DCARD[card].rate);
+  setRate(`${side}-hikari-rate`, DCARD[card].rate);
 
-  if (side === "r" && planType === "20") {
-    // ポイ活特典 5%
-    document.querySelector("#poi-balloon-r .rate-input").value = 5;
+  // ===== ポイ活20 =====
+  if (side === "r" && plan === "20") {
+    setRate("r-poi-rate", 5);
   }
-
-  setRate("ケータイ料金", side, rate);
-  setRate("ドコモ光", side, rate);
 
   calc();
 }
