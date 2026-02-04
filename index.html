@@ -909,42 +909,26 @@ if (plan !== "ahamo" && plan !== "irumo05") {
     const phonePointInput = phoneBalloon.parentElement.querySelector(".r-point");
     const phoneDash = document.getElementById("r-phone-dash");
 
-    // --- ahamo ---
-    if (plan === "ahamo" ) {
-      phoneBalloon.style.display = "none";
-      phonePointInput.style.display = "none";
-      phoneDash.style.display = "flex";
-    } 
+    if (plan === "ahamo") {
+  phoneBalloon.style.display = "none";
+  phonePointInput.style.display = "none";
+  phoneDash.style.display = "flex";
 
-    // --- irumo ---
-    if (plan === "irumo") {
-      phoneBalloon.style.display = "flex";
-      phonePointInput.style.display = "block";
-      phoneDash.style.display = "none";
+} else if (plan === "irumo" || plan === "mini") {
+  phoneBalloon.style.display = "flex";
+  phonePointInput.style.display = "block";
+  phoneDash.style.display = "none";
 
-      phoneRateEl.value =
-        card === "normal" ? 0.5 : 1;
-    } 
+  phoneRateEl.value =
+    card === "normal" ? 0.5 : 1;
 
-// --- mini ---
-    if (plan === "mini") {
-      phoneBalloon.style.display = "flex";
-      phonePointInput.style.display = "block";
-      phoneDash.style.display = "none";
+} else {
+  phoneBalloon.style.display = "flex";
+  phonePointInput.style.display = "block";
+  phoneDash.style.display = "none";
 
-      phoneRateEl.value =
-        card === "normal" ? 0.5 : 1;
-    } 
-
-    // --- その他プラン ---
-    else {
-      phoneBalloon.style.display = "flex";
-      phonePointInput.style.display = "block";
-      phoneDash.style.display = "none";
-
-      phoneRateEl.value = DCARD[card].rate;
-    }
-  }
+  phoneRateEl.value = DCARD[card].rate;
+}
 
   // ===== ドコモ光 還元率 =====
   setRate(`${side}-hikari-rate`, DCARD[card].rate);
