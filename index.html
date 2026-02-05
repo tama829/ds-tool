@@ -942,7 +942,9 @@ if (plan !== "ahamo" && plan !== "ahamo-poi" && plan !== "irumo05") {
   setRate(`${side}-hikari-rate`, DCARD[card].rate);
 
   // ===== ケータイ料金 還元率 =====
-  setRate(`l-phone-rate`, DCARD[card].rate);
+if (side === "l") {
+  setRate("l-phone-rate", DCARD[card].rate);
+}
 
 // ===== ポイ活特典 還元率（右側）=====
 if (side === "r") {
