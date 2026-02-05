@@ -851,6 +851,8 @@ function getPlanType() {
   const t = plan.options[plan.selectedIndex].text;
 
   if (t.includes("irumo（0.5GB）")) return "irumo05";
+  if (t.includes("ahamoポイ活")) return "ahamo-poi";
+  if (t.includes("eximoポイ活")) return "eximo-poi";
   if (t.includes("MAX")) return "MAX";
   if (t.includes("20")) return "20";
   if (t.includes("irumo")) return "irumo";
@@ -942,10 +944,35 @@ if (plan !== "ahamo" && plan !== "irumo05") {
   // ===== ケータイ料金 還元率 =====
   setRate(`l-phone-rate`, DCARD[card].rate);
 
-  // ===== ポイ活20特典 =====
-  if (side === "r" && plan === "20") {
+// ===== ポイ活特典 還元率（右側）=====
+if (side === "r") {
+
+  // 初期化
+  setRate("r-poi-rate", "");
+
+  // --- ポイ活20 ---
+  if (plan === "20") {
     setRate("r-poi-rate", 5);
   }
+
+  // --- ahamo ---
+  else if (plan === "ahamo-poi") {
+    setRate("r-poi-rate", 10);
+  }
+
+  // --- eximo ---
+  else if (plan === "eximo-poi") {
+    if (card === "normal") {
+      setRate("r-poi-rate", 3);
+    } 
+    else if (card === "goldu" || card === "gold") {
+      setRate("r-poi-rate", 5);
+    } 
+    else if (card === "platinum") {
+      setRate("r-poi-rate", 10);
+    }
+  }
+}
 
   calc();
 }
