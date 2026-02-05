@@ -872,6 +872,13 @@ const DCARD = {
   platinum: { discount: 550, rate: 20 }
 };
 
+const DCARD_LABEL = {
+  normal: "dカード",
+  goldu: "dカードGOLD U",
+  gold: "dカードGOLD",
+  platinum: "dカードPLATINUM"
+};
+
 //===割引金額セット===//
 function setDiscount(side, value) {
   const el = document.getElementById(`${side}-dcard-discount`);
@@ -1025,9 +1032,16 @@ function calc(){
   document.getElementById("l-final").textContent=lFinal+"円";
   document.getElementById("r-final").textContent=rFinal+"円";
 
-  const diff=lFinal-rFinal;
-  document.getElementById("diff").innerHTML=
-    diff<0 ? `ポイ活MAXの方が実質 ${Math.abs(diff)}円 お得🎊` : `差額：${diff}円`;
+  const diff = lFinal - rFinal;
+
+if (diff < 0) {
+  const card = document.getElementById("l-card").value;
+  const cardLabel = DCARD_LABEL[card] || "dカード";
+
+  document.getElementById("diff").innerHTML =
+    `ポイ活MAX + ${cardLabel} の方が<br>実質 ${Math.abs(diff)}円 お得🎊`;
+} else {
+  document.getElementById("diff").innerHTML = `差額：${diff}円`;
 }
 
 document.addEventListener("input",calc);
