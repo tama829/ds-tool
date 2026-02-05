@@ -895,9 +895,9 @@ function applyDcard(side) {
   const plan = side === "r" ? getPlanType() : "";
 
 // ===== dカード割 =====
-if (plan !== "ahamo" && plan !== "irumo05") {
+if (plan !== "ahamo" && plan !== "ahamo-poi" && plan !== "irumo05") {
   const value =
-    ["irumo", "eximo", "gigalite"].includes(plan)
+    ["irumo", "eximo", "eximo-poi", "gigalite"].includes(plan)
       ? 187
       : DCARD[card].discount;
 
