@@ -912,14 +912,14 @@ if (plan !== "ahamo" && plan !== "irumo05") {
     const phoneDash = document.getElementById("r-phone-dash");
 
     // --- ahamo ---
-    if (plan === "ahamo" ) {
+    if (plan === "ahamo" || plan === "ahamo-poi" ) {
       phoneBalloon.style.display = "none";
       phonePointInput.style.display = "none";
       phoneDash.style.display = "flex";
     } 
 
     // --- irumo ---
-   else if (plan === "irumo" || plan === "mini" ) {
+   else if (plan === "irumo" || plan === "irumo05" || plan === "mini" ) {
       phoneBalloon.style.display = "flex";
       phonePointInput.style.display = "block";
       phoneDash.style.display = "none";
