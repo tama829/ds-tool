@@ -294,8 +294,17 @@ h1 {
     <option value="4378">ギガライト2年定期（〜3GB）</option>
     <option value="5478">ギガライト2年定期（〜5GB）</option>
     <option value="6578">ギガライト2年定期（〜7GB）</option>
+    <option value="other">その他</option>
 
   </select>
+
+<input
+  type="text"
+  id="r-plan-other"
+  placeholder="プラン名"
+  style="display:none; margin-top:4px;"
+>
+
 </div>
 </div>
 
@@ -1047,9 +1056,15 @@ if (diff < 0) {
 
 document.addEventListener("input",calc);
 
+// リセット・プラン名
 function resetRight() {
-  // プラン・基本料金
   document.getElementById("r-plan").value = "";
+  document.getElementById("r-plan-other").value = "";
+  document.getElementById("r-plan-other").style.display = "none";
+  calc();
+}
+
+  // 基本料金
   document.getElementById("r-base").value = "";
 
   // dカード
@@ -1114,6 +1129,18 @@ function resetLeft() {
 
   calc();
 }
+
+const rPlan = document.getElementById("r-plan");
+const rPlanOther = document.getElementById("r-plan-other");
+
+rPlan.addEventListener("change", () => {
+  if (rPlan.value === "other") {
+    rPlanOther.style.display = "block";
+  } else {
+    rPlanOther.style.display = "none";
+    rPlanOther.value = "";
+  }
+});
 
 document.getElementById("reset-r").addEventListener("click", resetRight);
 document.getElementById("reset-l").addEventListener("click", resetLeft);
